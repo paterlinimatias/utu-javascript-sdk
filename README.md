@@ -1,8 +1,8 @@
-# utu-sdk-golang
+# utu
 
-SDK - uTu SDK written in golang
+SDK - uTu SDK written in javascript
 
-[![CircleCI](https://circleci.com/gh/utu-ai/messaging-alexa.svg?style=svg&circle-token=eb08c81d935d1f555729152f1c3db535d1e8a22c)](https://circleci.com/gh/utu-ai/messaging-alexa)
+[![npm version](https://badge.fury.io/js/utu.svg)](https://badge.fury.io/js/utu) [![NPM Status](http://img.shields.io/npm/dm/utu.svg?style=flat-square)](https://www.npmjs.org/package/utu)
 
 ## Installation
 
