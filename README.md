@@ -106,7 +106,7 @@ A custom event is any other type of event you'd like to track. You can add any v
 
  client.event("Asked for Horoscope", {
    platform: constants.MESSENGER,
-   platformID: "abc123",
+   platformId: "abc123",
    values: {
      "horoscope": "Leo"
      "time": new Date(),
