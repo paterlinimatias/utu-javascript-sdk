@@ -10,11 +10,32 @@ SDK - uTu SDK written in javascript
 $ npm install --save utu
 ```
 
+### Constants
+
+Contants are used so you know you have the correct value needed for uTu to process the request. We mainly use this for the platforms we support, which are as follows:
+
+ - MESSENGER
+ - KIK
+ - ALEXA
+ - SLACK
+
+you can access the constants via an import
+
+```javascript
+import { constants } from 'utu';
+
+// within constants you will have access to the following:
+// constants.MESSENGER 
+// constants.KIK 
+// constants.ALEXA 
+// constants.SLACK 
+```
+
 ### Functions
 
-#### Audience
+#### User
 
-An audience event is to track users in your system. You can call the same function to create and update an existing audience record. We will do so by checking the combination of Platform and PlatformID. You can supply and custom key / value identified you'd like for an audience record.
+A user event is to track users in your system. You can call the same function to create and update an existing audience record. We will do so by checking the combination of Platform and PlatformID. You can supply and custom key / value identified you'd like for an audience record.
 
 for things like `email`, `firstName`, `lastName` please keep the key as we have them so we can provide cross platform matching for your organization. Please see the list below.
 
@@ -22,7 +43,7 @@ for things like `email`, `firstName`, `lastName` please keep the key as we have 
  import { Client, constants } from 'utu';
  const client = new Client('YOUR_UTU_API_KEY')
 
- client.User({
+ client.user({
    platform: constants.SLACK, // required
    platformId: 'abc123', // required
    values: {
@@ -83,11 +104,12 @@ A custom event is any other type of event you'd like to track. You can add any v
     }
   })
 
- client.Event("Asked for Horoscope", Event{
-   Platform: utu.MESSENGER,
-   PlatformID: "abc123",
-   Values: utu.Values{
-     "time": time.Now(),
+ client.event("Asked for Horoscope", {
+   platform: constants.MESSENGER,
+   platformID: "abc123",
+   values: {
+     "horoscope": "Leo"
+     "time": new Date(),
    },
  })
 ```
