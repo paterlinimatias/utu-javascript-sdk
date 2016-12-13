@@ -1,6 +1,4 @@
-import http from 'http';
-
-const apiBaseURL = 'https://api.utu.ai/api/v1';
+import http from 'https';
 
 /**
  * Creates an http endpoint object that we can then call
@@ -8,15 +6,44 @@ const apiBaseURL = 'https://api.utu.ai/api/v1';
  * @param  {String} [method='POST']           the type of request we should make
  * @return {Promise}
  */
-export default (endpoint = 'event', method = 'POST') => (apikey, body) => {
-  const request = new Request(`${apiBaseURL}/${endpoint}`, {
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      apikey,
-    }),
-    method,
-    body: JSON.stringify(body),
-  });
+export default (endpoint = 'event', method = 'POST') => (apikey, bod) => (
+  new Promise((resolve, reject) => {
+    const options = {
+      host: 'api.utu.ai',
+      path: `/api/v1/${endpoint}`,
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache',
+        apikey,
+      },
+    };
 
-  return fetch(request).then(r => r.json());
-};
+    const request = http.request(options, (res) => {
+      let error = false;
+      // handle http errors
+      if (res.statusCode < 200 || res.statusCode > 299) {
+        error = true;
+      }
+
+      // temporary data holder
+      const body = [];
+      // on every content chunk, push it to the data array
+      res.on('data', (chunk) => body.push(chunk));
+      // we are done, resolve promise with those joined chunks
+      res.on('end', () => {
+        const b = JSON.parse(body.join(''));
+        if (error) {
+          reject(b);
+        } else {
+          resolve(b);
+        }
+      });
+    });
+
+    // handle connection errors of the request
+    request.on('error', (err) => reject(err));
+    request.write(JSON.stringify(bod));
+    request.end();
+  })
+);

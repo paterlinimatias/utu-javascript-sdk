@@ -8,7 +8,9 @@ var _utu = require('utu');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var uTu = new _utu.Client(process.env.UTU_KEY);
+var client = new _utu.uTu(process.env.UTU_KEY, {
+  platform: _utu.constants.SLACK
+});
 
 if (!process.env.TOKEN) {
   console.log('Error: Specify token in environment');
@@ -29,8 +31,7 @@ controller.spawn({
 
 controller.middleware.receive.use(function (bot, message, next) {
   if (message.type === 'message') {
-    uTu.message({
-      platform: _utu.constants.SLACK,
+    client.message({
       platformId: message.user,
       values: {
         message: message.text,
@@ -41,8 +42,7 @@ controller.middleware.receive.use(function (bot, message, next) {
     });
 
     bot.api.users.info({ user: message.user }, function (err, info) {
-      uTu.user({
-        platform: _utu.constants.SLACK,
+      client.user({
         platformId: message.user,
         values: {
           email: info.user.profile.email,
@@ -60,8 +60,7 @@ controller.middleware.receive.use(function (bot, message, next) {
 controller.hears(['hello', 'hi'], ['direct_message', 'direct_mention', 'mention'], function (bot, message) {
   var reply = 'Hello.';
   bot.reply(message, reply);
-  uTu.message({
-    platform: _utu.constants.SLACK,
+  client.message({
     platformId: message.user,
     values: {
       message: message.text,
@@ -107,8 +106,7 @@ controller.hears(['attach'], ['direct_message', 'direct_mention'], function (bot
 
   bot.reply(message, msg);
 
-  uTu.message({
-    platform: _utu.constants.SLACK,
+  client.message({
     platformId: message.user,
     values: {
       message: msg.text,
