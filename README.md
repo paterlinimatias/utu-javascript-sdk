@@ -2,6 +2,10 @@
 
 SDK - uTu SDK written in javascript
 
+Our SDK is used to capture analytics from your Bot and inject brand engagement
+& advertising into your Bot experience.  As the Bot publisher you have complete
+control.
+
 [![npm version](https://badge.fury.io/js/utu.svg)](https://badge.fury.io/js/utu) [![NPM Status](http://img.shields.io/npm/dm/utu.svg?style=flat-square)](https://www.npmjs.org/package/utu)
 
 ## Installation
@@ -10,14 +14,18 @@ SDK - uTu SDK written in javascript
 $ npm install --save utu
 ```
 
-### Constants
+### Platform Flagging
 
-Contants are used so you know you have the correct value needed for uTu to process the request. We mainly use this for the platforms we support, which are as follows:
+Every platform has its own unique peculiarities. As a starting point, therefore,
+we give you an option to flag the platform via an uTu.constant.
+
+Constants are used so you know you have the correct value needed for uTu to process the request. We mainly use this for the platforms we support, which are as follows:
 
 - MESSENGER
 - KIK
 - ALEXA
 - SLACK
+- ...
 
 you can access the constants via an import
 
@@ -31,19 +39,27 @@ import { constants } from 'utu';
 // constants.SLACK
 ```
 
-### Functions
+### Tracking Functions
+
+From an analytics perspective, uTu gives you the ability to track your user Bot
+interactions on three key dimensions: User - track properties and a longitudinal
+view over time and platforms; Messages - faithfully recreate a history of a users
+conversant experience; and Events - track any custom event you can dream up (e.g.,
+requested Horoscope, viewed product, purchased, etc.) along with an unlimited
+list of associated properties.
 
 #### User
 
-A user event is to track users in your system. You can call the same function to create and update an existing audience record. We will do so by checking the combination of Platform and PlatformID. You can supply and custom key / value identified you'd like for an audience record.
+Use the user function to track users in your system. You can call the same function to create or update a user.  We designate a unique user as a combination of Platform and PlatformID. You can supply and custom key / value identified you'd like for an audience record.
 
-for things like `email`, `firstName`, `lastName` please keep the key as we have them so we can provide cross platform matching for your organization. Please see the list below.
+Given other data points like email, firstName + phone, etc. we will also help you
+maintain a consistent view of your users via our matching and deduping processes.
 
 ```javascript
  import { uTu, constants } from 'utu';
- const client = new uTu('YOUR_UTU_API_KEY')
+ const utu = new uTu('YOUR_UTU_API_KEY')
 
- client.user({
+ utu.user({
    platform: constants.SLACK, // required
    platformId: 'abc123', // required
    values: {
@@ -57,27 +73,28 @@ for things like `email`, `firstName`, `lastName` please keep the key as we have 
 
 ##### Matching keys
 
-These are keys that we will use to try and link your users across platforms, channels, teams, and agents.
+These are keys that we can use to try and link your users across platforms, channels, teams, and agents.
 
 Key       | Example
 :-------- | :-------------------
 email     | john.doe@example.com
 firstName | john
 lastName  | doe
+phone     | 123.123.12345
 
 #### Message
 
-A Message event is to track messages that come to and from your agent. Your system will need to create a sessionId to be able to track conversations. If you are using any NLP services you can use that same sessionId.
+The Message function tracks messages that come to and from your agent. If you are able to provide a sessionID, which many platforms and NFL services do so, we will organize your message stream into useful dialogs.  
 
 ```javascript
   import { uTu, constants } from 'utu';
-  const client = new uTu('YOUR_UTU_API_KEY')
+  const utu = new uTu('YOUR_UTU_API_KEY')
 
-  client.message({
+  utu.message({
     platform: constants.SLACK, // required
     platformId: 'abc123', // required
+    sessionId: "abc", // required
     values: {
-      sessionId: "abc", // required
       message: 'hello',
       rawMessage: {
         text: 'hello',
@@ -90,13 +107,15 @@ A Message event is to track messages that come to and from your agent. Your syst
 
 #### Event
 
-A custom event is any other type of event you'd like to track. You can add any values you want into the `Values` object. This is useful for tracking custom user events, i.e. `Asked for Horoscope`.
+Events are a powerful way to create outsized value in tracking user experiences
+and outcomes across your Bot.  It can be anything.  You can also add any custom
+properties you'd like to the 'values' object.
 
 ```javascript
   import { uTu, constants } from 'utu';
-  const client = new uTu('YOUR_UTU_API_KEY')
+  const utu = new uTu('YOUR_UTU_API_KEY')
 
-  client.event('your custom event name', {
+  utu.event('your custom event name', {
     platform: constants.SLACK, // required
     platformId: 'abc123', // required
     values: { // you can log key value paired data here
@@ -104,7 +123,7 @@ A custom event is any other type of event you'd like to track. You can add any v
     }
   }).catch((err) => console.log(err))
 
- client.event("Asked for Horoscope", {
+ utu.event("Asked for Horoscope", {
    platform: constants.MESSENGER,
    platformId: "abc123",
    values: {
@@ -114,9 +133,11 @@ A custom event is any other type of event you'd like to track. You can add any v
  }).catch((err) => console.log(err))
 ```
 
-### Hidden Features
+### Sugar
 
-There are a few different ways to use our sdk. Below are some extra sugar functions that you integrate with uTu.
+There are a few different ways to use our uTu SDK. Below are some extra functions that make it easier to instrument your Bot.
+
+The main aim of these is to reduce repetitive field entries.
 
 #### Configs
 
@@ -124,7 +145,7 @@ You can set default configs on the client so you don't need to replicate the sam
 
 ```javascript
 import { uTu, constants } from 'utu';
-const client = new uTu('YOUR_UTU_API_KEY', {
+const utu = new uTu('YOUR_UTU_API_KEY', {
   platform: constants.ALEXA,
   appId: 'my alexa skill id', // this can also be slack team, etc.
 })
@@ -134,9 +155,9 @@ There is also a function to do this, incase you need to set the config after ini
 
 ```javascript
 import { uTu, constants } from 'utu';
-const client = new uTu('YOUR_UTU_API_KEY');
+const utu = new uTu('YOUR_UTU_API_KEY');
 
-client.setConfig({
+utu.setConfig({
   platform: constants.ALEXA,
   appId: 'my alexa skill id', // this can also be slack team, etc.
 });
@@ -149,23 +170,23 @@ So sometimes you want to log multiple items within a given sequence of events, b
 ```javascript
 import { uTu, constants } from 'utu';
 
-const client = new uTu('YOUR_UTU_API_KEY', {
+const utu = new uTu('YOUR_UTU_API_KEY', {
   platform: constants.ALEXA
 });
 
-const ctx = client.withContext({
+const utux = utu.withContext({
   platformId: 'abc123',
   sessionId: 'abc123',
 });
 
-// now each request i make from `ctx` will have `platform` bound from the config, `platformId` bound from ctx, and `sessionId` bound from ctx
-ctx.user({
+// now each request i make from `utux` will have `platform` bound from the config, `platformId` bound from utux, and `sessionId` bound from utux
+utux.user({
   values: {
     firstName: "John"
   }
 });
 
-ctx.event('User Joined', {
+utux.event('User Joined', {
   values: {
     joined: new Date(),
   }
@@ -178,29 +199,28 @@ Setting values are again extra sugar to make your life easy, but if used wrong c
 
 ```javascript
 import { uTu, constants } from 'utu';
-
-const client = new uTu('YOUR_UTU_API_KEY', {
+const utu = new uTu('YOUR_UTU_API_KEY', {
   platform: constants.ALEXA
 });
 
-const ctx = client.withContext({
+const utux = utu.withContext({
   platformId: 'abc123',
   sessionId: 'abc123',
 });
 
-ctx.setValues({
+utux.setValues({
   sign: 'leo'
 });
 
 // we not longer need an object passed on any events/user/messages because we have
 // already setup the whole request via context and setting values to that context
-ctx.event('Got Horoscope');
-ctx.event('Sent Horoscope');
+utux.event('Got Horoscope');
+utux.event('Sent Horoscope');
 
 // set a new single value, just remember this is persisted through each ctx request
-ctx.setValue('recievedAt', new Date());
+utux.setValue('recievedAt', new Date());
 
-ctx.event('Door Opened');
+utux.event('Door Opened');
 ```
 
 #### Promises!
@@ -209,10 +229,10 @@ Everything is promise based so have fun! use your async await or catch your way 
 
 ```javascript
 // promise example
-ctx.event('Got Horoscope').then().catch()
+utux.event('Got Horoscope').then().catch()
 
 //async await example
 async function () {
-  const result = await ctx.event('Got Horoscope');
+  const result = await utux.event('Got Horoscope');
 }
 ```
