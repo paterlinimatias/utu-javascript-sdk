@@ -80,7 +80,7 @@ describe('uTu Client', function() {
         expect(ctx.values.firstName).toBe('patrick');
       });
 
-      it('should throw error if not context', function() {
+      it('should throw error if no context', function() {
         expect(() => {
           this.client.setValue('firstName', 'patrick');
         }).toThrow();

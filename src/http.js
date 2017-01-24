@@ -41,6 +41,13 @@ export default (endpoint = 'event', method = 'POST') => (apikey, bod) => (
       });
     });
 
+    request.on('socket', (socket) => {
+      socket.setTimeout(4500);
+      socket.on('timeout', () => {
+        request.abort();
+      });
+    });
+
     // handle connection errors of the request
     request.on('error', (err) => reject(err));
     request.write(JSON.stringify(bod));

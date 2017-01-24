@@ -95,4 +95,5 @@ export default class uTu {
   event(e, data = {}) {
     return event(e, this.apikey, this.getRequestObject(data));
   }
+
 }

@@ -8,6 +8,7 @@ describe('Request Calls', () => {
     this.client = new uTu(key, {
       platform: "messenger",
       platformId: "abc123",
+      sessionId: 'testing',
     });
   });
 
@@ -26,12 +27,12 @@ describe('Request Calls', () => {
     it('should return success', async function() {
       const result = await this.client.message({
         values: {
-          sessionId: "abc123",
           botMessage: false,
           message: "abc123",
           rawMessage: {},
         },
       });
+
       expect(result.success).toBe(true)
     });
 

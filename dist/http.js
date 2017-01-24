@@ -49,6 +49,13 @@ exports.default = function () {
         });
       });
 
+      request.on('socket', function (socket) {
+        socket.setTimeout(4500);
+        socket.on('timeout', function () {
+          request.abort();
+        });
+      });
+
       request.on('error', function (err) {
         return reject(err);
       });

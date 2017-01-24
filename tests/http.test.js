@@ -6,4 +6,15 @@ describe('createEndpoint', function() {
 
     expect(typeof func).toBe('function')
   });
+
+  it('should return a failure', async function() {
+    const func = createEndpoint('failing-test-check');
+
+    expect(typeof func).toBe('function');
+    try {
+      const req = await func({});
+    } catch(e) {
+      expect(e).toBeDefined();
+    }
+  });
 });
