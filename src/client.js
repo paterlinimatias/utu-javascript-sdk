@@ -69,6 +69,39 @@ export default class uTu {
   }
 
   /**
+   * Queues a message to be sent with an intent
+   * @param  {Object} data the data that should be sent with the request
+   */
+  queueMessageForIntent(data = {}) {
+    if (!this.hasContext) {
+      throw new Error('You can only add que when using context, please see withContext()');
+    }
+
+    this.queuedMessage = data;
+  }
+
+  /**
+   * Sends a queued message
+   * @param {String} intent the intent to send with the message
+   */
+  sendMessageWithIntent(intent) {
+    if (!this.hasContext) {
+      throw new Error('You can only send the que when using context, please see withContext()');
+    }
+
+    if (!this.queuedMessage) {
+      throw new Error('There isn\'t a queued message');
+    }
+    // copy the message
+    const msg = this.queuedMessage;
+
+    // remove the queued message
+    delete this.queuedMessage;
+
+    return this.message(Object.assign({ intent }, msg));
+  }
+
+  /**
    * Creates or updates a new user in the system
    * @param  {Object} data the data that should be sent with the request
    * @return {Promise}
