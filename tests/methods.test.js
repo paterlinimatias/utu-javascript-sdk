@@ -1,6 +1,6 @@
 import { uTu } from '../src/main';
 
-const key = '7673f5d1298f4c6596458d8dca5a5968';
+const key = 'd76921203ffe4b9d8b961ecc35e27f0b';
 
 describe('Request Calls', () => {
 
@@ -53,6 +53,14 @@ describe('Request Calls', () => {
         },
       });
       expect(result.success).toBe(true)
+    });
+  });
+
+  describe('intent', function() {
+    it('should return success', async function() {
+      const result = await this.client.intent("GetHoroscope");
+      expect(result.platform).toBe("messenger");
+      expect(result.content).not.toBe(undefined);
     });
   });
 

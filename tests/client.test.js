@@ -11,7 +11,7 @@ describe('uTu Client', function() {
     });
   });
 
-  describe('set config from constructor ', () => {
+  describe('set config from constructor', () => {
     it('should set the global conifg', function() {
       expect(this.client.config.platform).toBe('messenger');
       expect(this.client.config.appId).toBe('abc123');
@@ -86,75 +86,6 @@ describe('uTu Client', function() {
         expect(() => {
           this.client.setValue('firstName', 'patrick');
         }).toThrow();
-      });
-    });
-
-    describe('queue message for intent', () => {
-      it('should set the queuedMessage property on the client', function() {
-        const ctx = this.client.withContext({
-          platformId: "abc",
-          sessionId: "abc123",
-        });
-
-        const msg = {
-          values: {
-            botMessage: false,
-            message: "abc123",
-            rawMessage: {},
-          },
-        };
-
-        ctx.queueMessageForIntent(msg);
-
-        expect(ctx.queuedMessage).toBe(msg);
-      });
-
-      it('should send the queuedMessage with intent from the client', async function() {
-        const ctx = this.client.withContext({
-          platformId: "abc",
-          sessionId: "abc123",
-        });
-
-        const msg = {
-          values: {
-            botMessage: false,
-            message: "abc123",
-            rawMessage: {},
-          },
-        };
-
-        ctx.queueMessageForIntent(msg);
-
-        const result = await ctx.sendMessageWithIntent('testing');
-        expect(result.success).toBe(true);
-        expect(ctx.queuedMessage).toBeUndefined();
-      });
-
-      it('should throw error if no context', function() {
-        expect(() => {
-          this.client.queueMessageForIntent({});
-        }).toThrowError('You can only add que when using context, please see withContext()');
-      });
-
-      it('should throw an error without queued message', function() {
-
-        const ctx = this.client.withContext({
-          platformId: "abc",
-          sessionId: "abc123",
-        });
-
-        expect(() => {
-          ctx.sendMessageWithIntent('testing');
-        }).toThrowError('There isn\'t a queued message');
-
-      });
-
-      it('should throw an error without context', function() {
-
-        expect(() => {
-          this.client.sendMessageWithIntent('testing');
-        }).toThrowError('You can only send the que when using context, please see withContext()');
-
       });
     });
 

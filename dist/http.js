@@ -11,13 +11,13 @@ var _https2 = _interopRequireDefault(_https);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function () {
-  var endpoint = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'event';
+  var endpoint = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '/api/v1/event';
   var method = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'POST';
   return function (apikey, bod) {
     return new Promise(function (resolve, reject) {
       var options = {
         host: 'api.utu.ai',
-        path: '/api/v1/' + endpoint,
+        path: endpoint,
         method: method,
         headers: {
           'Content-Type': 'application/json',

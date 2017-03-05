@@ -1,4 +1,4 @@
-import { user, message, event } from './methods';
+import { user, message, event, intent } from './methods';
 
 export default class uTu {
   constructor(apikey, config = {}, hasContext = false) {
@@ -69,39 +69,6 @@ export default class uTu {
   }
 
   /**
-   * Queues a message to be sent with an intent
-   * @param  {Object} data the data that should be sent with the request
-   */
-  queueMessageForIntent(data = {}) {
-    if (!this.hasContext) {
-      throw new Error('You can only add que when using context, please see withContext()');
-    }
-
-    this.queuedMessage = data;
-  }
-
-  /**
-   * Sends a queued message
-   * @param {String} intent the intent to send with the message
-   */
-  sendMessageWithIntent(intent) {
-    if (!this.hasContext) {
-      throw new Error('You can only send the que when using context, please see withContext()');
-    }
-
-    if (!this.queuedMessage) {
-      throw new Error('There isn\'t a queued message');
-    }
-    // copy the message
-    const msg = this.queuedMessage;
-
-    // remove the queued message
-    delete this.queuedMessage;
-
-    return this.message(Object.assign({ intent }, msg));
-  }
-
-  /**
    * Creates or updates a new user in the system
    * @param  {Object} data the data that should be sent with the request
    * @return {Promise}
@@ -127,6 +94,15 @@ export default class uTu {
    */
   event(e, data = {}) {
     return event(e, this.apikey, this.getRequestObject(data));
+  }
+
+  /**
+   * Logs an intent into the system
+   * @param  {Object} data the data that should be sent with the request
+   * @return {Promise}
+   */
+  intent(i, data = {}) {
+    return intent(i, this.apikey, this.getRequestObject(data));
   }
 
 }

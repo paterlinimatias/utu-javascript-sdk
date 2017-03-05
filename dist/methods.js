@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.event = exports.message = exports.user = undefined;
+exports.intent = exports.event = exports.message = exports.user = undefined;
 
 var _http = require('./http');
 
@@ -21,4 +21,8 @@ var message = exports.message = function message(key, data) {
 
 var event = exports.event = function event(e, key, data) {
   return (0, _http2.default)()(key, Object.assign({ event: e }, data));
+};
+
+var intent = exports.intent = function intent(i, key, data) {
+  return (0, _http2.default)('/intent/v1')(key, Object.assign({ intent: i }, data));
 };

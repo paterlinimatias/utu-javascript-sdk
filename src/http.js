@@ -6,11 +6,11 @@ import http from 'https';
  * @param  {String} [method='POST']           the type of request we should make
  * @return {Promise}
  */
-export default (endpoint = 'event', method = 'POST') => (apikey, bod) => (
+export default (endpoint = '/api/v1/event', method = 'POST') => (apikey, bod) => (
   new Promise((resolve, reject) => {
     const options = {
       host: 'api.utu.ai',
-      path: `/api/v1/${endpoint}`,
+      path: endpoint,
       method,
       headers: {
         'Content-Type': 'application/json',

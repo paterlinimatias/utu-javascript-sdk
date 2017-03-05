@@ -30,3 +30,13 @@ export const message = (key, data) => (
 export const event = (e, key, data) => (
   createEndpoint()(key, Object.assign({ event: e }, data))
 );
+
+/**
+ * Logs a intent
+ * @param  {String} key  the agents api key
+ * @param  {Object} data the data that should be sent with the request
+ * @return {Promise}
+ */
+export const intent = (i, key, data) => (
+  createEndpoint('/intent/v1')(key, Object.assign({ intent: i }, data))
+);

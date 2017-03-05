@@ -1,6 +1,6 @@
 {
   "name": "utu",
-  "version": "0.2.0-rc.1",
+  "version": "0.2.0-rc.3",
   "description": "uTu offical javascript sdk",
   "main": "dist/main.js",
   "scripts": {
@@ -37,6 +37,7 @@
     "nock": "^9.0.2"
   },
   "dependencies": {
+    "babel-cli": "^6.23.0",
     "es6-promise": "^4.0.5"
   },
   "eslintConfig": {

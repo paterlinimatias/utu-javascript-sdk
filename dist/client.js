@@ -71,6 +71,34 @@ var uTu = function () {
       return this;
     }
   }, {
+    key: 'queueMessageForIntent',
+    value: function queueMessageForIntent() {
+      var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+      if (!this.hasContext) {
+        throw new Error('You can only add que when using context, please see withContext()');
+      }
+
+      this.queuedMessage = data;
+    }
+  }, {
+    key: 'sendMessageWithIntent',
+    value: function sendMessageWithIntent(i) {
+      if (!this.hasContext) {
+        throw new Error('You can only send the que when using context, please see withContext()');
+      }
+
+      if (!this.queuedMessage) {
+        throw new Error('There isn\'t a queued message');
+      }
+
+      var msg = this.queuedMessage;
+
+      delete this.queuedMessage;
+
+      return this.message(Object.assign({ intent: i }, msg));
+    }
+  }, {
     key: 'user',
     value: function user() {
       var data = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -90,6 +118,13 @@ var uTu = function () {
       var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
       return (0, _methods.event)(e, this.apikey, this.getRequestObject(data));
+    }
+  }, {
+    key: 'intent',
+    value: function intent(i) {
+      var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+      return (0, _methods.intent)(i, this.apikey, this.getRequestObject(data));
     }
   }]);
 
