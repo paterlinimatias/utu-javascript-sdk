@@ -1,6 +1,6 @@
 {
   "name": "utu",
-  "version": "0.2.0-rc.3",
+  "version": "0.2.0-rc.4",
   "description": "uTu offical javascript sdk",
   "main": "dist/main.js",
   "scripts": {
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/utu-ai/utu-javascript-sdk#readme",
   "devDependencies": {
+    "babel-cli": "^6.23.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
     "babel-plugin-transform-async-to-generator": "^6.16.0",
@@ -37,7 +38,6 @@
     "nock": "^9.0.2"
   },
   "dependencies": {
-    "babel-cli": "^6.23.0",
     "es6-promise": "^4.0.5"
   },
   "eslintConfig": {

@@ -7,10 +7,12 @@ var MESSENGER = 'messenger';
 var KIK = 'kik';
 var ALEXA = 'alexa';
 var SLACK = 'slack';
+var SMS = 'sms';
 
 exports.default = {
   MESSENGER: MESSENGER,
   KIK: KIK,
   ALEXA: ALEXA,
-  SLACK: SLACK
+  SLACK: SLACK,
+  SMS: SMS
 };
