@@ -32,11 +32,15 @@ export default (endpoint = '/api/v1/event', method = 'POST') => (apikey, bod) =>
       res.on('data', (chunk) => body.push(chunk));
       // we are done, resolve promise with those joined chunks
       res.on('end', () => {
-        const b = JSON.parse(body.join(''));
-        if (error) {
-          reject(b);
-        } else {
-          resolve(b);
+        try {
+          const b = JSON.parse(body.join(''));
+          if (error) {
+            reject(b);
+          } else {
+            resolve(b);
+          }
+        } catch (e) {
+          reject(e);
         }
       });
     });
