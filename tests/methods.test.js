@@ -36,16 +36,10 @@ describe('Request Calls', () => {
       expect(result.success).toBe(true)
     });
 
-    it('should return success and errors', async function() {
-      await this.client.message({
-        values: {
-          rawMessage: {
-            text: "foobar",
-          },
-        },
-      }).catch((res) => {
+    it('should return error and errors', async function() {
+      await this.client.message({}).catch((res) => {
         expect(res.status).toBe("error");
-        expect(res.messages.length).toBe(2);
+        expect(res.messages.length).toBe(3);
       });
     });
   });
@@ -65,7 +59,6 @@ describe('Request Calls', () => {
     it('should return success', async function() {
       const result = await this.client.intent("GetHoroscope");
       expect(result.status).toBe("success");
-      expect(result.messages).toBe(null);
     });
   });
 

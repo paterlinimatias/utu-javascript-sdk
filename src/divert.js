@@ -32,4 +32,6 @@ export const divert = (platform, platformId, divertUser = true) => {
  * @param  {String}  platformId        the users id on the given platform
  * @return {Boolean}                   is the user diverted
  */
-export const isDiverted = (platform, platformId) => !!diverted[getDivertedKey(platform, platformId)];
+export const isDiverted = (platform, platformId) => (
+  !!diverted[getDivertedKey(platform, platformId)]
+);

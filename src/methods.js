@@ -37,9 +37,6 @@ export const event = (e, key, data) => (
  * @param  {Object} data the data that should be sent with the request
  * @return {Promise}
  */
-export const intent = (i, key, data) => {
-  const values = data.values || {};
-  // add intent to the values
-  Object.assign(values, { intent: i });
-  return createEndpoint('/intent/v1')(key, Object.assign({}, data, { values }));
-};
+export const intent = (i, key, data) => (
+  createEndpoint('/intent/v1')(key, Object.assign({ event: 'intent', intent: i }, data))
+);
