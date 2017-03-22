@@ -43,9 +43,10 @@ describe('Request Calls', () => {
             text: "foobar",
           },
         },
-      }).catch((res) => (
-        expect(res.status).toBe("success", console.error(res))
-      ));
+      }).catch((res) => {
+        expect(res.status).toBe("error");
+        expect(res.messages.length).toBe(2);
+      });
     });
   });
 
