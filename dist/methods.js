@@ -24,5 +24,8 @@ var event = exports.event = function event(e, key, data) {
 };
 
 var intent = exports.intent = function intent(i, key, data) {
-  return (0, _http2.default)('/intent/v1')(key, Object.assign({ intent: i }, data));
+  var values = data.values || {};
+
+  Object.assign(values, { intent: i });
+  return (0, _http2.default)('/intent/v1')(key, Object.assign({}, data, { values: values }));
 };

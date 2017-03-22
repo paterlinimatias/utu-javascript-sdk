@@ -40,11 +40,15 @@ exports.default = function () {
         });
 
         res.on('end', function () {
-          var b = JSON.parse(body.join(''));
-          if (error) {
-            reject(b);
-          } else {
-            resolve(b);
+          try {
+            var b = JSON.parse(body.join(''));
+            if (error) {
+              reject(b);
+            } else {
+              resolve(b);
+            }
+          } catch (e) {
+            reject(e);
           }
         });
       });

@@ -36,11 +36,15 @@ describe('Request Calls', () => {
       expect(result.success).toBe(true)
     });
 
-    it('should return 422 and errors', async function() {
+    it('should return success and errors', async function() {
       await this.client.message({
-        values: {},
+        values: {
+          rawMessage: {
+            text: "foobar",
+          },
+        },
       }).catch((res) => (
-        expect(res.status).toBe(422)
+        expect(res.status).toBe("success", console.error(res))
       ));
     });
   });
@@ -59,8 +63,8 @@ describe('Request Calls', () => {
   describe('intent', function() {
     it('should return success', async function() {
       const result = await this.client.intent("GetHoroscope");
-      expect(result.platform).toBe("messenger");
-      expect(result.content).not.toBe(undefined);
+      expect(result.status).toBe("success");
+      expect(result.messages).toBe(null);
     });
   });
 

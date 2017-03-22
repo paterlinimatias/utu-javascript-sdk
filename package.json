@@ -1,6 +1,6 @@
 {
   "name": "utu",
-  "version": "0.2.0-rc.5",
+  "version": "0.2.0-rc.6",
   "description": "uTu offical javascript sdk",
   "main": "dist/main.js",
   "scripts": {
